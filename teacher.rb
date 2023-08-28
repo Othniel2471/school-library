@@ -1,7 +1,7 @@
-require "./Person"
+require './Person'
 
 class Teacher < Person
-    def initialize(age, specialization, name: "Unknown", parents_permission: true)
+    def initialize(age, specialization, name: 'Unknown', parents_permission: true)
         super(age, name:name, parents_permission: parents_permission)
         @specialization = specialization
     end
