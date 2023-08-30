@@ -12,6 +12,7 @@ class Person < Nameable
     @name = name
     @age = age
     @parents_permission = parents_permission
+    @rentals = []
   end
 
   attr_accessor :name, :age
@@ -25,9 +26,8 @@ class Person < Nameable
     @name
   end
 
-  def rental(rental)
-    @rentals.push(rental)
-    rental.person = self
+  def add_rental(date, book)
+    Rental.new(date, book, self)
   end
 
   private
