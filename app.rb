@@ -33,8 +33,8 @@ class App
 
       if option == 7
         exit
-        break
       end
+      break
     end
   end
 
