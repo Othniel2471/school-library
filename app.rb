@@ -11,22 +11,22 @@ class App
   end
 
   def run
-    puts "welcome to school library app!"
+    puts 'welcome to school library app!'
     menu
   end
 
   def menu
     loop do
-      puts ""
-      puts "Please choose an option by entering a number:"
-      puts "1 - list all books"
-      puts "2 - list all people"
-      puts "3 - Create a person"
-      puts "4 - Create a book"
-      puts "5 - Create a rental"
-      puts "6 - List all rentals for a given person id"
-      puts "7 - Exit"
-      puts ""
+      puts ''
+      puts 'Please choose an option by entering a number:'
+      puts '1 - list all books'
+      puts '2 - list all people'
+      puts '3 - Create a person'
+      puts '4 - Create a book'
+      puts '5 - Create a rental'
+      puts '6 - List all rentals for a given person id'
+      puts '7 - Exit'
+      puts ''
 
       option = gets.chomp.to_i
       options(option)
@@ -57,31 +57,31 @@ class App
   end
 
   def exit
-    puts "Thank you for using this app!"
+    puts 'Thank you for using this app!'
   end
 
   def book_list
-    if @books.length > 0
+    if @books.length.positive?
       @books.each do |book|
         puts "Title: #{book.title}, Author: #{book.author}"
       end
     else
-      puts "Sorry ,No books in the list"
+      puts 'Sorry ,No books in the list'
     end
   end
 
   def people_list
-    if @people.length > 0
+    if @people.length.positive?
       @people.each do |person|
         puts "Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
       end
     else
-      puts "Sorry ,No one in the list"
+      puts 'Sorry ,No one in the list'
     end
   end
 
   def create_person
-    puts "Do you want to create a student (1) or a teacher (2)?"
+    puts 'Do you want to create a student (1) or a teacher (2)?'
     person_type = gets.chomp.to_i
     case person_type
     when 1
@@ -128,12 +128,12 @@ class App
   end
 
   def create_rental
-    if @books.length > 0 && @people.length > 0
-      puts "Select a book from the following list by number"
+    if @books.length.positive? && @people.length.positive?
+      puts 'Select a book from the following list by number'
       @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
       book_index = gets.chomp.to_i
       book = @books[book_index]
-      puts "Select a person from the following list by number (not ID)"
+      puts 'Select a person from the following list by number (not ID)'
       @people.each_with_index do |person, index|
         puts "#{index}) Name: #{person.name}, Age: #{person.age}"
       end
@@ -143,27 +143,27 @@ class App
       date = gets.chomp
       rental = Rental.new(date, book, person)
       @rentals.push(rental)
-      puts "Rental was created successfully with return date '#{rental.date}' for book '#{rental.book.title}' and person '#{rental.person.name}'"
+      puts "Rental was created on '#{rental.date}' for book '#{rental.book.title}' and person '#{rental.person.name}'"
     else
-      puts "You need to have at least one person and one book in order to create a rental"
+      puts 'You need to have at least one person and one book in order to create a rental'
     end
   end
 
   def list_rentals
-    if @rentals.length > 0
-      puts "ID of person: "
+    if @rentals.length.positive?
+      puts 'ID of person: '
       person_id = gets.chomp.to_i
       person = @people.find { |person| person.id == person_id }
       if person
-        puts "Rentals:"
+        puts 'Rentals:'
         person.rentals.each do |rental|
           puts "Date: #{rental.date}, Book: #{rental.book.title} by #{rental.book.author}"
         end
       else
-        puts "Person not found"
+        puts 'Person not found'
       end
     else
-      puts "No rentals were found"
+      puts 'No rentals were found'
     end
   end
 end
