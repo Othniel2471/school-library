@@ -9,4 +9,5 @@ class Rental
     book.rentals.push(self)
     person.rentals.push(self)
   end
+
 end

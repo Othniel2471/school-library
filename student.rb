@@ -2,10 +2,12 @@ require './Person'
 
 class Student < Person
   attr_reader :classroom
+  attr_accessor :type
 
-  def initialize(age, classroom, name: 'Unknown', parents_permission: true)
-    super(age, name: name, parents_permission: parents_permission)
+  def initialize(age, name, parents_permission)
+    super(age, name, parents_permission: parents_permission)
     @classroom = classroom
+    @type = 'Student'
   end
 
   def play_hooky
