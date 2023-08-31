@@ -31,7 +31,10 @@ class App
       option = gets.chomp.to_i
       options(option)
 
-      break if option == 7
+      if option == 7
+        exit
+        break
+      end
     end
   end
 
@@ -49,10 +52,6 @@ class App
       create_rental
     when 6
       list_rentals
-    when 7
-      exit
-    else
-      puts "Sorry, I didn't understand you"
     end
   end
 
@@ -153,7 +152,7 @@ class App
     if @rentals.length.positive?
       puts 'ID of person: '
       person_id = gets.chomp.to_i
-      person = @people.find { |person| person.id == person_id }
+      person = @people.find { |someone| someone.id == person_id }
       if person
         puts 'Rentals:'
         person.rentals.each do |rental|
