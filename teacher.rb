@@ -1,7 +1,6 @@
 require './Person'
 
 class Teacher < Person
-
   attr_reader :type
 
   def initialize(age, specialization, name = 'Unknown', parents_permission: true)
