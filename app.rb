@@ -31,8 +31,10 @@ class App
       option = gets.chomp.to_i
       options(option)
 
-      when 7 then exit
+      if option == 7
+        exit
       end
+
       break if option == 7
     end
   end
