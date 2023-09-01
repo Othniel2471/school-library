@@ -75,7 +75,7 @@ class App
           puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
         elsif person.instance_of?(Student)
           puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-        end  
+        end
       end
     else
       puts 'Sorry ,No one in the list'
