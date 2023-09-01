@@ -110,7 +110,7 @@ class App
     name = gets.chomp
     print 'Specialization: '
     specialization = gets.chomp
-    person = Teacher.new(age, specialization, name)
+    person = Teacher.new(age, name, specialization)
     @people.push(person)
     puts "Teacher #{name} was created successfully with ID #{person.id}"
   end
