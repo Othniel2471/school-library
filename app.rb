@@ -71,7 +71,11 @@ class App
   def people_list
     if @people.length.positive?
       @people.each do |person|
-        puts "Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+        if person.instance_of?(Teacher)
+          puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+        elsif person.instance_of?(Student)
+          puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+        end  
       end
     else
       puts 'Sorry ,No one in the list'
