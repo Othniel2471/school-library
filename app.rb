@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './student'
 require './teacher'
 require './book'
@@ -8,54 +10,6 @@ class App
     @people = []
     @books = []
     @rentals = []
-  end
-
-  def run
-    puts 'welcome to school library app!'
-    menu
-  end
-
-  def menu
-    loop do
-      puts ''
-      puts 'Please choose an option by entering a number:'
-      puts '1 - list all books'
-      puts '2 - list all people'
-      puts '3 - Create a person'
-      puts '4 - Create a book'
-      puts '5 - Create a rental'
-      puts '6 - List all rentals for a given person id'
-      puts '7 - Exit'
-      puts ''
-
-      option = gets.chomp.to_i
-      options(option)
-
-      exit if option == 7
-
-      break if option == 7
-    end
-  end
-
-  def options(option)
-    case option
-    when 1
-      book_list
-    when 2
-      people_list
-    when 3
-      create_person
-    when 4
-      create_book
-    when 5
-      create_rental
-    when 6
-      list_rentals
-    end
-  end
-
-  def exit
-    puts 'Thank you for using this app!'
   end
 
   def book_list
@@ -82,41 +36,24 @@ class App
     end
   end
 
-  def create_person
-    puts 'Do you want to create a student (1) or a teacher (2)?'
-    person_type = gets.chomp.to_i
-    case person_type
-    when 1
-      create_student
-    when 2
-      create_teacher
-    else
-      puts "Sorry, I didn't understand you"
+  def create_person(person_type)
+    print 'Age: '
+    age = gets.chomp.to_i
+    print 'Name: '
+    name = gets.chomp
+    if person_type == 1
+      print 'Has parent permission? (Y/N): '
+      permission = gets.chomp
+      person = Student.new(age, name, permission)
+      @people.push(person)
+      puts "Student #{person.name} was created successfully with ID #{person.id}"
+    elsif person_type == 2
+      print 'Specialization: '
+      specialization = gets.chomp
+      person = Teacher.new(age, specialization, name)
+      @people.push(person)
+      puts "Teacher #{name} was created successfully with ID #{person.id}"
     end
-  end
-
-  def create_student
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Has parent permission? (Y/N): '
-    permission = gets.chomp
-    person = Student.new(age, name, permission)
-    @people.push(person)
-    puts "Student #{person.name} was created successfully with ID #{person.id}"
-  end
-
-  def create_teacher
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Specialization: '
-    specialization = gets.chomp
-    person = Teacher.new(age, specialization, name)
-    @people.push(person)
-    puts "Teacher #{name} was created successfully with ID #{person.id}"
   end
 
   def create_book
