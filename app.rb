@@ -51,7 +51,7 @@ class App
 
     @people.each do |person|
       if person.instance_of?(Student)
-        people.push(age: person.age, name: person.name,  parent_permission: person.parents_permission, type: 'student')
+        people.push(age: person.age, name: person.name, parent_permission: person.parents_permission, type: 'student')
       elsif person.instance_of?(Teacher)
         people.push(age: person.age, name: person.name, specialization: person.specialization, type: 'teacher')
       end
