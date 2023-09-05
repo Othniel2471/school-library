@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require './decorator'
-
 class TrimmerDecorator < Decorator
   def correct_name
     if @nameable.correct_name.length > 10
