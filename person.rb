@@ -6,7 +6,11 @@ require './capitalize_decorator'
 require './trimmer_decorator'
 
 class Person < Nameable
+
+  attr_accessor :parents_permission
+
   def initialize(age, name = 'Unknown', parents_permission: true)
+    puts parents_permission
     super()
     @id = Random.rand(1..1000)
     @name = name

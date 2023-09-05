@@ -9,6 +9,7 @@ class Menu
 
   def run
     puts 'welcome to school library app!'
+    @app.read_data
     menu
   end
 
@@ -54,6 +55,7 @@ class Menu
   end
 
   def exit
+    @app.write_data
     puts 'Thank you for using this app!'
   end
 end
