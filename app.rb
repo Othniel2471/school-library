@@ -11,36 +11,51 @@ class App
     @rentals = []
   end
 
-  attr_accessor :book_json
-
   def read_data
     File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
     File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
     File.new('Data/rentals.json', 'w') unless File.exist?('Data/rentals.json')
-    people_json = File.read('Data/people.json')
-    people = JSON.parse(people_json)
-    people.each do |person|
-      if person['type'] == 'student'
-        @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
-      elsif person['type'] == 'teacher'
-        @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
+  end
+
+  def read_books
+    books_json = File.read('Data/books.json')
+    if books_json.empty?
+      puts 'No books in the list'
+    else
+      books = JSON.parse(books_json)
+      books.each do |book|
+        @books.push(Book.new(book['title'], book['author']))
       end
     end
+  end
 
-    @books_json = File.read('Data/books.json')
-    books = JSON.parse(books_json)
-    books.each do |book|
-      @books.push(Book.new(book['title'], book['author']))
+  def read_people
+    people_json = File.read('Data/people.json')
+    if people_json.empty?
+      puts 'No people in the list'
+    else
+      people = JSON.parse(people_json)
+      people.each do |person|
+        if person['type'] == 'student'
+          @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
+        elsif person['type'] == 'teacher'
+          @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
+        end
+      end
     end
   end
 
   def read_rentals
     rentals_json = File.read('Data/rentals.json')
-    rentals = JSON.parse(rentals_json)
-    rentals.each do |rental|
-      book = @books.find { |singlebook| singlebook.title == rental['book_title'] }
-      person = @people.find { |persondem| persondem.name == rental['person_name'] }
-      @rentals.push(Rental.new(rental['date'], book, person))
+    if rentals_json.empty?
+      puts 'No rentals in the list'
+    else
+      rentals = JSON.parse(rentals_json)
+      rentals.each do |rental|
+        book = @books.find { |book| book.title == rental['book_title'] }
+        person = @people.find { |person| person.name == rental['person_name'] }
+        @rentals.push(Rental.new(rental['date'], book, person))
+      end
     end
   end
 
