@@ -11,6 +11,7 @@ class App
     @rentals = []
   end
 
+  # rubocop:disable Metrics/MethodLength
   def read_data
     File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
     File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
@@ -35,8 +36,8 @@ class App
     rentals_json = File.read('Data/rentals.json')
     rentals = JSON.parse(rentals_json)
     rentals.each do |rental|
-      book = @books.find { |book| book.title == rental['book_title'] }
-      person = @people.find { |person| person.name == rental['person_name'] }
+      book = @books.find { |singlebook| singlebook.title == rental['book_title'] }
+      person = @people.find { |persondem| persondem.name == rental['person_name'] }
       @rentals.push(Rental.new(rental['date'], book, person))
     end
   end
