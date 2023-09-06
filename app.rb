@@ -14,23 +14,23 @@ class App
   def read_books
     File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
     books = File.read('Data/books.json')
-    unless books.empty?
-      JSON.parse(books).each do |book|
-        @books.push(Book.new(book['title'], book['author']))
-      end
+    return if books.empty?
+
+    JSON.parse(books).each do |book|
+      @books.push(Book.new(book['title'], book['author']))
     end
   end
 
   def read_people
     File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
     people = File.read('Data/people.json')
-    unless people.empty?
-      JSON.parse(people).each do |person|
-        if person['type'] == 'Student'
-          @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
-        elsif person['type'] == 'Teacher'
-          @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
-        end
+    return if people.empty?
+
+    JSON.parse(people).each do |person|
+      if person['type'] == 'Student'
+        @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
+      elsif person['type'] == 'Teacher'
+        @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
       end
     end
   end
@@ -38,12 +38,12 @@ class App
   def read_rentals
     File.new('Data/rentals.json', 'w') unless File.exist?('Data/rentals.json')
     rentals = File.read('Data/rentals.json')
-    unless rentals.empty?
-      JSON.parse(rentals).each do |rental|
-        book = @books.find { |book| book.title == rental['book'] }
-        person = @people.find { |person| person.name == rental['person'] }
-        @rentals.push(Rental.new(rental['date'], book, person))
-      end
+    return if rentals.empty?
+
+    JSON.parse(rentals).each do |rental|
+      book = @books.find { |singlebook| singlebook.title == rental['book'] }
+      person = @people.find { |singleperson| singleperson.name == rental['person'] }
+      @rentals.push(Rental.new(rental['date'], book, person))
     end
   end
 
