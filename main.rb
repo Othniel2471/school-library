@@ -7,7 +7,8 @@ class Menu
 
   def run
     puts 'welcome to school library app!'
-    @app.read_data
+    @app.read_books
+    @app.read_people
     @app.read_rentals
     menu
   end

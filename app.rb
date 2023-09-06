@@ -11,34 +11,24 @@ class App
     @rentals = []
   end
 
-  def read_data
-    File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
-    File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
-    File.new('Data/rentals.json', 'w') unless File.exist?('Data/rentals.json')
-  end
-
   def read_books
-    books_json = File.read('Data/books.json')
-    if books_json.empty?
-      puts 'No books in the list'
-    else
-      books = JSON.parse(books_json)
-      books.each do |book|
+    File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
+    books = File.read('Data/books.json')
+    unless books.empty?
+      JSON.parse(books).each do |book|
         @books.push(Book.new(book['title'], book['author']))
       end
     end
   end
 
   def read_people
-    people_json = File.read('Data/people.json')
-    if people_json.empty?
-      puts 'No people in the list'
-    else
-      people = JSON.parse(people_json)
-      people.each do |person|
-        if person['type'] == 'student'
+    File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
+    people = File.read('Data/people.json')
+    unless people.empty?
+      JSON.parse(people).each do |person|
+        if person['type'] == 'Student'
           @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
-        elsif person['type'] == 'teacher'
+        elsif person['type'] == 'Teacher'
           @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
         end
       end
@@ -46,43 +36,42 @@ class App
   end
 
   def read_rentals
-    rentals_json = File.read('Data/rentals.json')
-    if rentals_json.empty?
-      puts 'No rentals in the list'
-    else
-      rentals = JSON.parse(rentals_json)
-      rentals.each do |rental|
-        book = @books.find { |book| book.title == rental['book_title'] }
-        person = @people.find { |person| person.name == rental['person_name'] }
+    File.new('Data/rentals.json', 'w') unless File.exist?('Data/rentals.json')
+    rentals = File.read('Data/rentals.json')
+    unless rentals.empty?
+      JSON.parse(rentals).each do |rental|
+        book = @books.find { |book| book.title == rental['book'] }
+        person = @people.find { |person| person.name == rental['person'] }
         @rentals.push(Rental.new(rental['date'], book, person))
       end
     end
   end
 
   def write_data
-    books = []
-    people = []
-    rentals = []
+    books_file = []
+    people_file = []
+    rentals_file = []
 
     @books.each do |book|
-      books.push(title: book.title, author: book.author)
+      books_file.push({ title: book.title, author: book.author })
     end
 
     @people.each do |person|
       if person.instance_of?(Student)
-        people.push(age: person.age, name: person.name, parent_permission: person.parents_permission, type: 'student')
+        people_file.push({ type: 'Student', age: person.age, name: person.name,
+                           parent_permission: person.parents_permission })
       elsif person.instance_of?(Teacher)
-        people.push(age: person.age, name: person.name, specialization: person.specialization, type: 'teacher')
+        people_file.push({ type: 'Teacher', age: person.age, name: person.name, specialization: person.specialization })
       end
     end
 
     @rentals.each do |rental|
-      rentals.push(date: rental.date, book_title: rental.book.title, person_name: rental.person.name)
+      rentals_file.push({ date: rental.date, book: rental.book.title, person: rental.person.name })
     end
 
-    File.write('Data/books.json', JSON.pretty_generate(books))
-    File.write('Data/people.json', JSON.pretty_generate(people))
-    File.write('Data/rentals.json', JSON.pretty_generate(rentals))
+    File.write('Data/books.json', JSON.pretty_generate(books_file))
+    File.write('Data/people.json', JSON.pretty_generate(people_file))
+    File.write('Data/rentals.json', JSON.pretty_generate(rentals_file))
   end
 
   def book_list
