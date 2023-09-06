@@ -12,6 +12,8 @@ class App
   end
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def read_data
     File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
     File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
