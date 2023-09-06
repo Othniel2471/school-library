@@ -118,6 +118,12 @@ Install this project with:
 > - Twitter: [OMAIDU OTHNIEL](https://twitter.com/@Oomaidu)
 > - LinkedIn: [OMAIDU OTHNIEL](https://www.linkedin.com/in/othniel-omaidu-3350a9164)
 
+👤 **Tonny Tei**
+
+> - GitHub: [@tonnytech](https://github.com/tonnytech)
+> - Twitter: [@tonnytei](https://twitter.com/tonnytei)
+> - LinkedIn: [Tonny Tei](https://www.linkedin.com/in/tonnytei/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🔭 Future Features <a name="future-features"></a>

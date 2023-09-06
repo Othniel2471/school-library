@@ -112,7 +112,7 @@ class App
       specialization = gets.chomp
       person = Teacher.new(age, specialization, name)
       @people.push(person)
-      puts "Teacher #{name} was created successfully with ID #{person.id}"
+      puts "Teacher #{name} was added successfully with ID #{person.id}"
     end
   end
 
@@ -123,16 +123,16 @@ class App
     author = gets.chomp
     book = Book.new(title, author)
     @books.push(book)
-    puts "Book #{book.title} was created successfully"
+    puts "Book #{book.title} was added successfully"
   end
 
   def create_rental
     if @books.length.positive? && @people.length.positive?
-      puts 'Select a book from the following list by number'
+      puts 'Choose a book from the following list by number'
       @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
       book_index = gets.chomp.to_i
       book = @books[book_index]
-      puts 'Select a person from the following list by number (not ID)'
+      puts 'Choose a person from the following list by number (not ID)'
       @people.each_with_index do |person, index|
         puts "#{index}) Name: #{person.name}, Age: #{person.age}"
       end
