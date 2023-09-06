@@ -11,7 +11,6 @@ class App
     @rentals = []
   end
 
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/CyclomaticComplexity
   def read_data
@@ -33,6 +32,8 @@ class App
       @books.push(Book.new(book['title'], book['author']))
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def read_rentals
     rentals_json = File.read('Data/rentals.json')
