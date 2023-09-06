@@ -10,5 +10,11 @@
     "name": "othniel",
     "parent_permission": "y",
     "type": "student"
+  },
+  {
+    "age": 20,
+    "name": "davies",
+    "parent_permission": "y",
+    "type": "student"
   }
 ]

@@ -29,6 +29,9 @@ class App
     books.each do |book|
       @books.push(Book.new(book['title'], book['author']))
     end
+  end
+
+  def read_rentals
     rentals_json = File.read('Data/rentals.json')
     rentals = JSON.parse(rentals_json)
     rentals.each do |rental|
@@ -94,14 +97,13 @@ class App
     age = gets.chomp.to_i
     print 'Name: '
     name = gets.chomp
-    if person_type === 1
+    if person_type == 1
       print 'Has parent permission? (Y/N): '
       permission = gets.chomp
       person = Student.new(age, name, permission)
-      puts person.parents_permission
       @people.push(person)
       puts "Student #{person.name} was created successfully with ID #{person.id}"
-    elsif person_type === 2
+    elsif person_type == 2
       print 'Specialization: '
       specialization = gets.chomp
       person = Teacher.new(age, specialization, name)
