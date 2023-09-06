@@ -11,8 +11,8 @@ class App
     @rentals = []
   end
 
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/CyclomaticComplexity
+  attr_accessor :book_json
+
   def read_data
     File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
     File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
@@ -26,14 +26,13 @@ class App
         @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
       end
     end
-    books_json = File.read('Data/books.json')
+
+    @books_json = File.read('Data/books.json')
     books = JSON.parse(books_json)
     books.each do |book|
       @books.push(Book.new(book['title'], book['author']))
     end
   end
-  # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def read_rentals
     rentals_json = File.read('Data/rentals.json')
