@@ -1,3 +1,4 @@
+require 'json'
 require './student'
 require './teacher'
 require './book'
@@ -8,6 +9,69 @@ class App
     @people = []
     @books = []
     @rentals = []
+  end
+
+  def read_books
+    File.new('Data/books.json', 'w') unless File.exist?('Data/books.json')
+    books = File.read('Data/books.json')
+    return if books.empty?
+
+    JSON.parse(books).each do |book|
+      @books.push(Book.new(book['title'], book['author']))
+    end
+  end
+
+  def read_people
+    File.new('Data/people.json', 'w') unless File.exist?('Data/people.json')
+    people = File.read('Data/people.json')
+    return if people.empty?
+
+    JSON.parse(people).each do |person|
+      if person['type'] == 'Student'
+        @people.push(Student.new(person['age'], person['name'], person['parent_permission']))
+      elsif person['type'] == 'Teacher'
+        @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
+      end
+    end
+  end
+
+  def read_rentals
+    File.new('Data/rentals.json', 'w') unless File.exist?('Data/rentals.json')
+    rentals = File.read('Data/rentals.json')
+    return if rentals.empty?
+
+    JSON.parse(rentals).each do |rental|
+      book = @books.find { |singlebook| singlebook.title == rental['book'] }
+      person = @people.find { |singleperson| singleperson.name == rental['person'] }
+      @rentals.push(Rental.new(rental['date'], book, person))
+    end
+  end
+
+  def write_data
+    books_file = []
+    people_file = []
+    rentals_file = []
+
+    @books.each do |book|
+      books_file.push({ title: book.title, author: book.author })
+    end
+
+    @people.each do |person|
+      if person.instance_of?(Student)
+        people_file.push({ type: 'Student', age: person.age, name: person.name,
+                           parent_permission: person.parents_permission })
+      elsif person.instance_of?(Teacher)
+        people_file.push({ type: 'Teacher', age: person.age, name: person.name, specialization: person.specialization })
+      end
+    end
+
+    @rentals.each do |rental|
+      rentals_file.push({ date: rental.date, book: rental.book.title, person: rental.person.name })
+    end
+
+    File.write('Data/books.json', JSON.pretty_generate(books_file))
+    File.write('Data/people.json', JSON.pretty_generate(people_file))
+    File.write('Data/rentals.json', JSON.pretty_generate(rentals_file))
   end
 
   def book_list
@@ -23,6 +87,7 @@ class App
   def people_list
     if @people.length.positive?
       @people.each do |person|
+        puts person
         if person.instance_of?(Teacher)
           puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
         elsif person.instance_of?(Student)
@@ -50,7 +115,7 @@ class App
       specialization = gets.chomp
       person = Teacher.new(age, specialization, name)
       @people.push(person)
-      puts "Teacher #{name} was created successfully with ID #{person.id}"
+      puts "Teacher #{name} was added successfully with ID #{person.id}"
     end
   end
 
@@ -61,16 +126,16 @@ class App
     author = gets.chomp
     book = Book.new(title, author)
     @books.push(book)
-    puts "Book #{book.title} was created successfully"
+    puts "Book #{book.title} was added successfully"
   end
 
   def create_rental
     if @books.length.positive? && @people.length.positive?
-      puts 'Select a book from the following list by number'
+      puts 'Choose a book from the following list by number'
       @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
       book_index = gets.chomp.to_i
       book = @books[book_index]
-      puts 'Select a person from the following list by number (not ID)'
+      puts 'Choose a person from the following list by number (not ID)'
       @people.each_with_index do |person, index|
         puts "#{index}) Name: #{person.name}, Age: #{person.age}"
       end
