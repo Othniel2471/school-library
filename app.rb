@@ -49,30 +49,27 @@ class App
 
   def write_data
     books_file = []
-    people_file = []
-    rentals_file = []
+    people = []
+    rentals = []
     @books.each do |book|
       books_file.push({ title: book.title, author: book.author })
     end
     @people.each do |person|
       if person.instance_of?(Student)
-        people_file.push({ type: 'Student', id: person.id, age: person.age, name: person.name,
-                           parent_permission: person.parents_permission })
+        people.push({ type: 'Student', id: person.id, age: person.age, name: person.name, parent_permission: person.parents_permission })
       elsif person.instance_of?(Teacher)
-        people_file.push({ type: 'Teacher', id: person.id, age: person.age, name: person.name,
-                           specialization: person.specialization })
+        people.push({ type: 'Teacher', id: person.id, age: person.age, name: person.name, specialization: person.specialization })
       end
     end
     @rentals.each do |rental|
-      rentals_file.push({ id: rental.person.id, date: rental.date, book: rental.book.title,
-                          person: rental.person.name })
+      rentals.push({ id: rental.person.id, date: rental.date, book: rental.book.title, person: rental.person.name })
     end
 
     File.write('Data/books.json', JSON.pretty_generate(books_file))
-    File.write('Data/people.json', JSON.pretty_generate(people_file))
-    File.write('Data/rentals.json', JSON.pretty_generate(rentals_file))
+    File.write('Data/people.json', JSON.pretty_generate(people))
+    File.write('Data/rentals.json', JSON.pretty_generate(rentals))
   end
-
+  
   def book_list
     if @books.length.positive?
       @books.each do |book|
