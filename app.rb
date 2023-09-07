@@ -51,11 +51,9 @@ class App
     books_file = []
     people_file = []
     rentals_file = []
-
     @books.each do |book|
       books_file.push({ title: book.title, author: book.author })
     end
-
     @people.each do |person|
       if person.instance_of?(Student)
         people_file.push({ type: 'Student', id: person.id, age: person.age, name: person.name,
@@ -65,7 +63,6 @@ class App
                            specialization: person.specialization })
       end
     end
-
     @rentals.each do |rental|
       rentals_file.push({ id: rental.person.id, date: rental.date, book: rental.book.title,
                           person: rental.person.name })
