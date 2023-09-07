@@ -1,17 +1,13 @@
-require_relative '../person'
-require_relative '../capitalize_decorator'
-require_relative '../trimmer_decorator'
+require_relative '../decorator'
 
-describe 'Testing Decorator' do 
-    before :all do 
-        @person = Person.new(5,'testing')
-        @capitalizer = CapitalizeDecorator.new @person
-        @trimmer = TrimmerDecorator.new @person
-    end
+describe Decorator do
+  let(:nameable) { double('nameable') }
+  subject { Decorator.new(nameable) }
 
-    context 'Creating class decorator' do 
-        it 'Should be an instance of the CapitalizeDecorator' do
-            expect (@capitalizer).to be_instance_of(CapitalizeDecorator)
-        end
+  describe '#correct_name' do
+    it 'delegates to the nameable' do
+      expect(nameable).to receive(:correct_name)
+      subject.correct_name
     end
+  end
 end
