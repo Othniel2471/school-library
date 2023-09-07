@@ -49,27 +49,29 @@ class App
 
   def write_data
     books_file = []
-    people = []
-    rentals = []
+    people_file = []
+    rentals_file = []
+
     @books.each do |book|
       books_file.push({ title: book.title, author: book.author })
     end
+
     @people.each do |person|
       if person.instance_of?(Student)
-        people.push({ type: 'Student', id: person.id, age: person.age, name: person.name,
-                      parent_permission: person.parents_permission })
+        people_file.push({ type: 'Student', age: person.age, name: person.name,
+                           parent_permission: person.parents_permission })
       elsif person.instance_of?(Teacher)
-        people.push({ type: 'Teacher', id: person.id, age: person.age, name: person.name,
-                      specialization: person.specialization })
+        people_file.push({ type: 'Teacher', age: person.age, name: person.name, specialization: person.specialization })
       end
     end
+
     @rentals.each do |rental|
-      rentals.push({ id: rental.person.id, date: rental.date, book: rental.book.title, person: rental.person.name })
+      rentals_file.push({ date: rental.date, book: rental.book.title, person: rental.person.name })
     end
 
     File.write('Data/books.json', JSON.pretty_generate(books_file))
-    File.write('Data/people.json', JSON.pretty_generate(people))
-    File.write('Data/rentals.json', JSON.pretty_generate(rentals))
+    File.write('Data/people.json', JSON.pretty_generate(people_file))
+    File.write('Data/rentals.json', JSON.pretty_generate(rentals_file))
   end
 
   def book_list
@@ -106,9 +108,7 @@ class App
       print 'Has parent permission? (Y/N): '
       permission = gets.chomp
       person = Student.new(age, name, permission)
-      student = { age: person.age, name: person.name, permission: person.parents_permission }
-
-      @people.push(student)
+      @people.push(person)
       puts "Student #{person.name} was created successfully with ID #{person.id}"
     elsif person_type == 2
       print 'Specialization: '
