@@ -56,9 +56,11 @@ class App
     end
     @people.each do |person|
       if person.instance_of?(Student)
-        people.push({ type: 'Student', id: person.id, age: person.age, name: person.name, parent_permission: person.parents_permission })
+        people.push({ type: 'Student', id: person.id, age: person.age, name: person.name,
+                      parent_permission: person.parents_permission })
       elsif person.instance_of?(Teacher)
-        people.push({ type: 'Teacher', id: person.id, age: person.age, name: person.name, specialization: person.specialization })
+        people.push({ type: 'Teacher', id: person.id, age: person.age, name: person.name,
+                      specialization: person.specialization })
       end
     end
     @rentals.each do |rental|
@@ -69,7 +71,7 @@ class App
     File.write('Data/people.json', JSON.pretty_generate(people))
     File.write('Data/rentals.json', JSON.pretty_generate(rentals))
   end
-  
+
   def book_list
     if @books.length.positive?
       @books.each do |book|
